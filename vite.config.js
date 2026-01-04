@@ -11,12 +11,10 @@ export default defineConfig(({ mode }) => {
         '/api/news': {
           target: 'https://newsapi.org/v2/everything',
           changeOrigin: true,
-          rewrite: (path) => {
-            const url = new URL(path, 'http://localhost');
-            const searchParams = url.searchParams;
-            searchParams.set('apiKey', env.VITE_NEWS_API_KEY);
-            return '?' + searchParams.toString();
+          headers: {
+            'X-Api-Key': env.VITE_NEWS_API_KEY
           },
+          rewrite: (path) => path.replace(/^\/api\/news/, '')
         },
       },
     },
