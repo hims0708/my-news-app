@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
           target: 'https://newsapi.org/v2/everything',
           changeOrigin: true,
           headers: {
-            'X-Api-Key': env.VITE_NEWS_API_KEY
+            'X-Api-Key': (env.VITE_NEWS_API_KEY || "c1f0ff492c9846a1b30b72156362aa78").trim()
           },
           rewrite: (path) => path.replace(/^\/api\/news/, '')
         },
