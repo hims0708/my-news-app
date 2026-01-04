@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 function Newsapp() {
     const [search, setSearch] = useState("india");
     const [newsData, setNewsData] = useState(null)
-    const API_KEY = "c1f0ff492c9846a1b30b72156362aa78"
 
     const getData = async () => {
         const response = await fetch(`/api/news?q=${search}`);

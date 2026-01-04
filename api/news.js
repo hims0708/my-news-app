@@ -1,6 +1,6 @@
 export default async function handler(request, response) {
     const { q } = request.query;
-    const apiKey = process.env.VITE_NEWS_API_KEY || "c1f0ff492c9846a1b30b72156362aa78";
+    const apiKey = process.env.VITE_NEWS_API_KEY;
 
     if (!q) {
         return response.status(400).json({ error: 'Search query "q" is required' });
