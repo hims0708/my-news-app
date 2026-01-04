@@ -4,30 +4,32 @@ import React, { useEffect, useState } from 'react'
 function Newsapp() {
     const [search, setSearch] = useState("india");
     const [newsData, setNewsData] = useState(null)
-    const API_KEY ="c1f0ff492c9846a1b30b72156362aa78"
+    const API_KEY = "c1f0ff492c9846a1b30b72156362aa78"
 
-    const getData = async() =>{
-        const response = await fetch(`https://newsapi.org/v2/everything?q=${search}&apiKey=${API_KEY}`);
+    const getData = async () => {
+        const response = await fetch(`/api/news?q=${search}`);
         const jsonData = await response.json();
-        let dt = jsonData.articles.slice(0,50)
+        let dt = jsonData.articles ? jsonData.articles.slice(0, 50) : [];
         setNewsData(dt)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getData()
-    },[])
+    }, [])
 
-    const handleInput = (e) =>{
+    const handleInput = (e) => {
         setSearch(e.target.value)
     }
 
-    const userInput = (event) =>{
+    const userInput = (event) => {
         setSearch(event.target.value)
         // Immediately fetch news for the selected category
         const fetchCategory = async () => {
-            const response = await fetch(`https://newsapi.org/v2/everything?q=${event.target.value}&apiKey=${API_KEY}`);
+            const response = await fetch(`/api/news?q=${event.target.value}`);
             const jsonData = await response.json();
-            setNewsData(jsonData.articles.slice(0, 50));
+            if (jsonData.articles) {
+                setNewsData(jsonData.articles.slice(0, 50));
+            }
         };
         fetchCategory();
     }
@@ -39,11 +41,11 @@ function Newsapp() {
                     <h1>Trendy News</h1>
                 </div>
                 <div className='search-container'>
-                    <input 
-                        type='text' 
-                        placeholder='Search news topics...' 
-                        value={search} 
-                        onChange={handleInput} 
+                    <input
+                        type='text'
+                        placeholder='Search news topics...'
+                        value={search}
+                        onChange={handleInput}
                         className="search-input"
                     />
                     <button onClick={getData} className="search-button">
@@ -68,7 +70,7 @@ function Newsapp() {
             </div>
 
             <main>
-                {newsData ? <Card data={newsData}/> : (
+                {newsData ? <Card data={newsData} /> : (
                     <div style={{ textAlign: 'center', padding: '4rem' }}>
                         <p>Loading the latest news...</p>
                     </div>
